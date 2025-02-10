@@ -2,7 +2,7 @@ import Contact from "../models/contact.js";
 
 export const newContact = async (req, res) => {
   const { name, email, phoneNumber, address } = req.body;
-  console.log(name);
+
   try {
     const dbContact = await Contact.findOne({ email });
     if (dbContact) {
@@ -39,6 +39,23 @@ export const getContacts = async (req, res) => {
 
     if (allContacts) {
       return res.status(200).json({ allContacts });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "internal server error" });
+  }
+};
+
+export const deleteContact = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const dbResponse = await Contact.findByIdAndDelete(id);
+    if (dbResponse) {
+      return res.status(200).json({
+        message: `contact with id : ${dbResponse._id} deleted successfully`,
+      });
+    } else {
+      res.status(400).json({ message: "user does not exist" });
     }
   } catch (error) {
     res.status(500).json({ message: "internal server error" });
