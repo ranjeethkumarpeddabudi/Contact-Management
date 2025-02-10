@@ -26,10 +26,10 @@ export const newContact = async (req, res) => {
         address: newContact.address,
       });
     } else {
-      res.status(400).json({ message: "Invalid data" });
+      res.status(400).json({ error: "Invalid data" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -41,7 +41,7 @@ export const getContacts = async (req, res) => {
       return res.status(200).json({ allContacts });
     }
   } catch (error) {
-    res.status(500).json({ message: "internal server error" });
+    res.status(500).json({ error: "internal server error" });
   }
 };
 
@@ -55,9 +55,23 @@ export const deleteContact = async (req, res) => {
         message: `contact with id : ${dbResponse._id} deleted successfully`,
       });
     } else {
-      res.status(400).json({ message: "user does not exist" });
+      res.status(400).json({ message: "User does not exists" });
     }
   } catch (error) {
-    res.status(500).json({ message: "internal server error" });
+    res.status(500).json({ error: "internal server error" });
+  }
+};
+
+export const getUnique = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const dbResponse = await Contact.findById(id).select("-__v");
+    if (dbResponse) {
+      return res.status(200).json(dbResponse);
+    } else {
+      res.status(400).json({ message: "User does not exists" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "internal server error" });
   }
 };
