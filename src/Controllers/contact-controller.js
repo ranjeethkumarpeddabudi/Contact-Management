@@ -38,7 +38,7 @@ export const getContacts = async (req, res) => {
     const allContacts = await Contact.find().select("-__v -updatedAt");
 
     if (allContacts) {
-      return res.status(200).json(allContacts);
+      return res.status(200).json({ allContacts });
     }
   } catch (error) {
     res.status(500).json({ message: "internal server error" });
