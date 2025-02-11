@@ -75,3 +75,29 @@ export const getUnique = async (req, res) => {
     res.status(500).json({ error: "internal server error" });
   }
 };
+
+export const updateContact = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, phoneNumber, address } = req.body;
+  try {
+    if (!name && !email && !phoneNumber && !address) {
+      return res
+        .status(400)
+        .json({ error: "At least one field is required to update" });
+    }
+    const dbResponse = await Contact.findByIdAndUpdate(
+      id,
+      { $set: { name, email, phoneNumber, address } },
+      { new: true, runValidators: true }
+    );
+
+    if (!dbResponse) {
+      return res.status(404).json({ error: "Contact not Found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Contact updated successfully", contact: dbResponse });
+  } catch (error) {
+    res.status(500).json({ error: "internal server error" });
+  }
+};
