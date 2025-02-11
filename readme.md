@@ -1,6 +1,6 @@
 ### Wordle Clone
 
-- The application will allow users to manage their contacts, including adding,
+- This application will allows to manage contacts, including adding,
   updating, deleting, and viewing them.
 
 ### Set Up Instructions
