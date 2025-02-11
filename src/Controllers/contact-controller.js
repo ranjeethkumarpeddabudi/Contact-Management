@@ -1,4 +1,4 @@
-import Contact from "../models/contact.js";
+import Contact from "../models/contact-model.js";
 
 export const newContact = async (req, res) => {
   const { name, email, phoneNumber, address } = req.body;
@@ -55,7 +55,7 @@ export const deleteContact = async (req, res) => {
         message: `contact with id : ${dbResponse._id} deleted successfully`,
       });
     } else {
-      res.status(400).json({ message: "User does not exists" });
+      res.status(404).json({ message: "Contact not found" });
     }
   } catch (error) {
     res.status(500).json({ error: "internal server error" });
@@ -69,7 +69,7 @@ export const getUnique = async (req, res) => {
     if (dbResponse) {
       return res.status(200).json(dbResponse);
     } else {
-      res.status(400).json({ message: "User does not exists" });
+      res.status(404).json({ message: "Contact not found" });
     }
   } catch (error) {
     res.status(500).json({ error: "internal server error" });
